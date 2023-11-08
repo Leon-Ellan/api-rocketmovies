@@ -45,5 +45,12 @@ const [movies_id] = await knex("movies_notes").insert({
       tags,
     })
   }
+  async delete(request, response) {
+    const { id } = request.params
+
+    await knex("movies_notes").where({ id }).delete();
+
+    return response.json("Deleted");
+  }
 }
 module.exports = MoviesControllers
