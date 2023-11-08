@@ -33,5 +33,17 @@ const [movies_id] = await knex("movies_notes").insert({
   return response.json()
 
   }
+  async show(request, response) {
+    const { id } = request.params
+
+    const movies = await knex("movies_notes").where({ id }).first()
+
+    const tags = await knex("movies_tags").where({ movies_id: id }).orderBy("name")
+    
+    return response.json({
+      ...movies,
+      tags,
+    })
+  }
 }
 module.exports = MoviesControllers

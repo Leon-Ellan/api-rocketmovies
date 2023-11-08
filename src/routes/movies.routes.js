@@ -4,10 +4,9 @@ const MoviesController = require("../controllers/MoviesController")
 
 const moviesRoutes = Router()
 
-const moviesControllers = new MoviesController();
+const moviesController = new MoviesController();
 
-
-moviesRoutes.post("/:user_id", moviesControllers.create)
-
+moviesRoutes.post("/:user_id", moviesController.create);
+moviesRoutes.get("/:id", moviesController.show);
 
 module.exports = moviesRoutes
