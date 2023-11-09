@@ -52,5 +52,16 @@ const [movies_id] = await knex("movies_notes").insert({
 
     return response.json("Deleted");
   }
+
+  async index(request,response) {
+    const { user_id } = request.query;
+    const moviesNotes = await knex("movies_notes")
+    .where({ user_id})
+    .orderBy("title")
+
+    return response.json(moviesNotes)
+  }
 }
+
+  
 module.exports = MoviesControllers
