@@ -54,10 +54,21 @@ const [movies_id] = await knex("movies_notes").insert({
   }
 
   async index(request,response) {
-    const { user_id } = request.query;
-    const moviesNotes = await knex("movies_notes")
-    .where({ user_id})
-    .orderBy("title")
+    const { user_id, title, tags } = request.query;
+
+    let moviesNotes;
+    if(tags) {
+      const filterTags = tags.split(',').map(tag => tag.trim()) // essa linha cria um vetor com as tags a partir da virgula 
+      moviesNotes = await knex("movies_tags")
+      .whereIn("name", filterTags)
+      
+    } else {
+      moviesNotes = await knex("movies_notes")
+      .where({ user_id })
+      .whereLike("title", `%${title}%`)
+      .orderBy("title")
+    }
+
 
     return response.json(moviesNotes)
   }
