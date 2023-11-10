@@ -79,8 +79,18 @@ const [movies_id] = await knex("movies_notes").insert({
       .orderBy("title")
     }
 
+    const userTags = await knex("movies_tags").where({ user_id });
+    const notesWithTags = movies_notes.map(note => {
+      const noteTags = userTags.filter(tag => tag.movies_id === note.id);
 
-    return response.json(movies_notes)
+      return {
+        ...note,
+        tags: noteTags
+      }
+    })
+
+
+    return response.json(notesWithTags)
   }
 }
 
